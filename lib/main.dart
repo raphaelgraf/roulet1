@@ -3,11 +3,12 @@ import 'package:roulet/rouletBack/addStuff.dart';
 import 'package:shake/shake.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:roulet/model/cookieRepo.dart';
+import 'package:vibration/vibration.dart';
 
 void main() {
   runApp(MyApp());
 }
-
+ CookieOfTheDay model = new CookieOfTheDay();
 class MyApp extends StatelessWidget {
   // This widget is the root of your application
   @override
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: MyHomePage(title: 'Flutter Demo Home Page'),
+          home: MyHomePage(title: 'Zufallsgenerator', ),
         ));
   }
 }
@@ -33,9 +34,20 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+
+
 class _MyHomePageState extends State<MyHomePage> {
   String loes;
 
+ // ignore: must_call_super
+ void initState(){
+  ShakeDetector detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        print("testing testing;;");
+        Vibration.vibrate(duration: 1000);
+        model.chandeRandomValue();
+      });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     right: BorderSide(width: 8.0, color: Colors.black),
                   ),
                 ),
-                child: Text('$model.actualValue'),
+                child: Text('${model.actualValue}'),
               ),
               RaisedButton(
                 child: new Text("START"),
@@ -66,14 +78,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 onPressed: () { model.chandeRandomValue(); },
+
               ),
               new Container(
                 child: new Row(
                   children: <Widget>[
                     Padding(padding: EdgeInsets.all(50)),
                     RaisedButton(
-                      child: new Text("ADD"),
+                      child: Icon(Icons.add),
                       color: Colors.blueAccent[600],
+
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -93,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+
       )
     );
   }

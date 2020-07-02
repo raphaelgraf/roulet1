@@ -8,14 +8,15 @@ class CookieOfTheDay extends Model {
 
   get actualValue => _actRndValue;
 
-  List<String> data;
+  List<String> data = [];
   
   void add(String value){
     data.add(value);
     print(data);
   }
   void chandeRandomValue(){
-    _actRndValue =  data[rnd.nextInt(data.length)];
+    _actRndValue = data.length == 0 ? '' : data[rnd.nextInt(data.length)];
+    print('hhhhhhhh');
     notifyListeners();
   }
 
