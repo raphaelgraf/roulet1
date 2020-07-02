@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roulet/model/cookieRepo.dart';
 
 class MyApp2 extends StatelessWidget {
   @override
@@ -30,7 +31,8 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
-  //
+  String value;
+  CookieOfTheDay rep = new CookieOfTheDay();
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
@@ -48,6 +50,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               if (value.isEmpty) {
                 return 'Please enter some text';
               }
+              this.value = value;
               return null;
             },
           ),
@@ -58,9 +61,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                 // Validate returns true if the form is valid, or false
                 // otherwise.
                 if (_formKey.currentState.validate()) {
-                  // If the form is valid, display a Snackbar.
+
+
                   Scaffold.of(context)
                       .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  rep.add(value);
                 }
               },
               child: Text('Submit'),
